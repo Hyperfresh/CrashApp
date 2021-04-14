@@ -1,0 +1,24 @@
+{
+  "name": "crashapp",
+  "version": "1.0.0",
+  "description": "It does what you think it does.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hyperfresh/CrashApp.git"
+  },
+  "author": "Hyperfresh",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Hyperfresh/CrashApp/issues"
+  },
+  "homepage": "https://github.com/Hyperfresh/CrashApp#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
