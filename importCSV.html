@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSV Import</title>
+    </head>
+    <body align="center">
+        <!-- Start HTML Page -->
+        <h3>Import Crash Data from CSV</h3>
+        <p>File type: CSV only</p>
+        <!-- Multipart form allows file uploads -->
+        <form action="scripts/import.php" method="POST" enctype="multipart/form-data">
+            <label>Select CSV File:</label>
+            <!-- input type file and name = file which will be referenced above in PHP -->
+            <input type="file" name="file"/>
+            </br>
+            <input type="submit" name="submit" value="Import"/>
+        </form>
+    </body>
+</html>

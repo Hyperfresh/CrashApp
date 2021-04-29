@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <title>Add collision type</title>
+        </head>
+        <body>
+                <h1>Add collision type...</h1>
+                <form action="scripts/add/addCollision.php" method="post">
+                        Type: <select name="collisionType">
+                                <option value="Head On">Head On</option><br>
+                                <option value="Hit Animal">Hit Animal</option><br>
+                                <option value="Hit Fixed Object">Hit Fixed Object</option><br>
+                                <option value="Hit Object On Road">Hit Object On Road</option><br>
+                                <option value="Hit Parked Vehicle">Hit Parked Vehicle</option><br>
+                                <option value="Hit Pedestrian">Hit Pedestrian</option><br>
+                                <option value="Left Road - Out of Control">Left Road - Out of Control</option><br>
+                                <option value="Other">Other</option><br>
+                                <option value="Rear End">Rear End</option><br>
+                                <option value="Right Angle">Right Angle</option><br>
+                                <option value="Right Turn">Right Turn</option><br>
+                                <option value="Roll Over">Roll Over</option><br>
+                                <option value="Side Swipe">Side Swipe</option><br>
+                        </select><br>
+                        Speed: <input name="speed" maxlength="3" type="number" required><br>
+                        Casualties: <input name="casualties" maxlength="2" type="number" required><br>
+                        Highest severity: <select name="highestSeverity">
+                                <option value="Fat">Fatal injury</option>
+                                <option value="Ser">Serious injury</option>
+                                </select><br>
+                        Drugs: <input name="drugs" type="checkbox"><br>
+                        DUI: <input name="dui" type="checkbox"><br>
+
+                        <!-- submit button -->
+                        <input type="submit">    
+                </form>
+        <!-- end form -->
+        </body>
+</html>

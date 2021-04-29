@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <title>Add location</title>
+        </head>
+        <body>
+                <!-- start form -->
+                <h1>Add location...</h1>
+                <form action="scripts/add/addLocation.php" method="post">
+                        Suburb: <input name ="suburb" maxlength="37" type="text" required><br>
+                        LGA: <input name="lga" maxlength="43" type="text" required><br>
+                        Postcode: <input name="postcode" maxlength="4" type="number" required><br>
+                        General location: <select name="generalLocation">
+                                <option value="City">City</option>
+                                <option value="Metro">Metro</option>
+                                <option value="Country">Country</option>
+                                </select><br>
+
+                        <!-- submit button -->
+                        <input type="submit">    
+                </form>
+        <!-- end form -->
+        </body>
+</html>
