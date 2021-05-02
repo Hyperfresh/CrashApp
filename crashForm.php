@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Add crash</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php
