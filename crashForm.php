@@ -10,6 +10,7 @@
 ?>
 <form action="scripts/add/addcrash.php" method="post">
  <!-- Dynamic Drop down box of sports which looks up values from db for students -->    
+    <h1>Add crash...</h1>
     Select Location: <select name ="location">
         <!-- Start PHP -->
         <?php

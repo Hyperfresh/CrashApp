@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$db = "test";
+$db = "crashdata";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, null, $db);

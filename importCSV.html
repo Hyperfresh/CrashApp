@@ -4,12 +4,12 @@
         <title>CSV Import</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body align="center">
+    <body>
         <!-- Start HTML Page -->
-        <h3>Import Crash Data from CSV</h3>
+        <h1>Import Crash Data from CSV</h1>
         <p>File type: CSV only</p>
         <!-- Multipart form allows file uploads -->
-        <form action="scripts/import.php" method="POST" enctype="multipart/form-data">
+        <form action="import.php" method="POST" enctype="multipart/form-data">
             <label>Select CSV File:</label>
             <!-- input type file and name = file which will be referenced above in PHP -->
             <input type="file" name="file"/>
