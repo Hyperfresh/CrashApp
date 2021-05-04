@@ -42,8 +42,8 @@
         if (mysqli_num_rows($result2) > 0) {
             // output data of each row using a while statement to loop through array
             while ($row = mysqli_fetch_assoc($result2)) {
-                echo '<script>console.log("' . $row['crashtype_id'] . $row['collisionType'] . $row['speed'] . '")</script>';
-                echo '<option value=' . $row['crashtype_id'] . '>' . $row['collisionType'] . '@' . $row['speed'] . 'km/h, ' . $row['casualties'] . ' casualties</option>';
+                echo '<script>console.log("' . $row['crashType_id'] . $row['collisionType'] . $row['speed'] . '")</script>';
+                echo '<option value=' . $row['crashType_id'] . '>' . $row['collisionType'] . '@' . $row['speed'] . 'km/h, ' . $row['casualties'] . ' casualties</option>';
             }
         }
         ?>
