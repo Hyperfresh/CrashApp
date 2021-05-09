@@ -8,7 +8,7 @@ function alert($info) {
     echo '<script>alert("' . $info . '")</script>';
 }
 
-include('connect.php');
+include('scripts/connect.php');
 //check to see if form sent and submit button value pressed
 if (isset($_POST["submit"]) && $_FILES['file']['name']) {
     conlog("File okay!");
@@ -26,6 +26,8 @@ if (isset($_POST["submit"]) && $_FILES['file']['name']) {
         }
         conlog("Opening stream with $handle.");
         //read through the document line by line and grab each cell and store in variable
+        $count = 0;
+        $error = 0;
         while ($data = fgetcsv($handle)) {
             //assign value from CSV to variable from row and check for SQL injection
             //mysqli_real_escape_string is a built in method to validate and remove unwanted characters
@@ -51,36 +53,37 @@ if (isset($_POST["submit"]) && $_FILES['file']['name']) {
 
             //run query using functional procedure ->
 	        if (mysqli_query($conn, $crash)) { 
-                echo "<script>console.log('Ran \"" . $crash . "\" with no error.')</script>";
+                conlog('Ran \"' . $crash . '\" with no error.');
             } else {
-                echo '<script>console.log("ERROR: Attempted to run \"' . $crash . "\" and got \"" . $conn->error . '\" back.")';
+                conlog('ERROR: Attempted to run \"' . $crash . "\" and got \"" . $conn->error . '\" back."');
             }
 
             $search = "SELECT * FROM `collisiontype` WHERE `collisionType` LIKE '$type' AND `speed` = $speed AND `casualties` = $cas AND `highestSeverity` LIKE '$sev'";
-            $result = mysqli_query($conn, $sql);
+            $result = mysqli_query($conn, $search);
             $row = mysqli_fetch_assoc($result);
 
-            $sql = "INSERT INTO crashdata(collisiontype_id,location_id,year,month,time) VALUES (" . $row['collisiontype_id'] . ",$location,$year,'$month',$time)";
-
-            $count = 0;
+            conlog($search);
+            $sql = "INSERT INTO crashdata(collisiontype_id,location_id,year,month,time) VALUES (" . $row['crashType_id'] . ",$location,$year,'$month',$time)";
+            conlog($sql);
 
 	        //run query using functional procedure ->
 	        if (mysqli_query($conn, $sql)) { 
                 $count = $count + 1;
-                echo "<script>console.log('Ran \"" . $crash . "\" with no error.')</script>";
+                conlog('Ran \"' . $sql . '\" with no error.');
             } else {
-                echo '<script>console.log("ERROR: Attempted to run \"' . $crash . "\" and got \"" . $conn->error . '\" back.")';
+                $error = $error + 1;
+                conlog('ERROR: Attempted to run \"' . $sql . "\" and got \"" . $conn->error . '\" back.');
             }
         }
         //close the file handler
         fclose($handle);
         //let the user know they are done via JS notification prompt
-        echo "<script>alert('Imported " . $count . " entries.')</script>";
+        echo "<script>alert('Imported " . $count . " entries with " . $error . " errors.')</script>";
     } else {
-        echo "<script>alert('This isn't a CSV file.')</script>";
+        alert("This isn't a CSV file.");
     }
 } else {
-    echo "<script>alert('An error occured. Please check that you have uploaded a file.')</script>";
+    alert('An error occured. Please check that you have uploaded a file.');
 }
-header('location:../importCSV.html');
+    //header('location:importCSV.html');
 ?>

@@ -18,9 +18,13 @@
 h1{
     font-family: "Renogare";
     font-size: 55px;
+    background-color: black;
+    color: white;
 }
 body{
-    color: #ffffff;
     font-family: "Open Sans";
     font-size: 20px;
+    background-color: black;
+    color: white;
 }
+

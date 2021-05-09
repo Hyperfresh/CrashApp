@@ -8,6 +8,7 @@
 <?php
     include('./scripts/connect.php');
 ?>
+<a href="index.html">Back to menu</a>
 <form action="scripts/add/addcrash.php" method="post">
  <!-- Dynamic Drop down box of sports which looks up values from db for students -->    
     <h1>Add crash...</h1>

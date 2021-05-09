@@ -8,6 +8,7 @@
     <?php
         include('./scripts/connect.php');
     ?>
+    <a href="index.html">Back to menu</a>
     <h1>Locations</h1>
     <?php
         //store the query into a variable
@@ -100,9 +101,9 @@
 
                 $colsql = "SELECT * FROM `collisiontype` WHERE `crashType_id` = " . $row['collisiontype_id'];
                 $colres = mysqli_query($conn, $colsql);
-                if (mysqli_num_rows($result) > 0) {
+                if (mysqli_num_rows($colres) > 0) {
                     echo "<script>console.log('test')</script>";
-                    while($colrow = mysqli_fetch_assoc($result)) {
+                    while($colrow = mysqli_fetch_assoc($colres)){
                         if ($colrow['DUI'] == 1) {
                             $DUI = "driver under influence";
                         } else {
@@ -110,15 +111,15 @@
                         }
                         echo '<script>console.log("' . $colrow['collisionType'] . '@' . $colrow['speed'] . 'km/h, ' . $colrow['casualties'] . ' casualties - ' . $DrugsInvolved.", ".$DUI.'")</script>';
                         echo "<td>". $colrow['collisionType'] . '@' . $colrow['speed'] . 'km/h, ' . $colrow['casualties'] . ' casualties - ' . $DrugsInvolved.", ".$DUI."</td>";
+                        echo "<script>console.log('test3')</script>";
                     }
-                    echo "<script>console.log('test2')</script>";
                 } else {
                     echo "<td>No data</td>";
                 }
                 $locsql = "SELECT * FROM `location` WHERE `location_id` = " . $row['location_id'];
                 $locres = mysqli_query($conn, $locsql);
-                if (mysqli_num_rows($result) > 0) {
-                    while($locrow = mysqli_fetch_assoc($result)) {
+                if (mysqli_num_rows($locres) > 0) {
+                    while($locrow = mysqli_fetch_assoc($locres)) {
                         echo "<td>". $locrow['suburb'] . ", " . $locrow['lga'] . " " . $locrow['postcode'] . "</td>";
                     }
                 } else {
