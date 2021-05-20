@@ -1,1 +1,1 @@
-Start-Process pwsh C:\Users\Hyperfresh\Documents\AnotherGitFolder\CrashApp\compile.ps1 -Verb runAs
+Start-Process pwsh C:\Users\Hyperfresh\Documents\GitHub\CrashApp\compile.ps1 -Verb runAs
