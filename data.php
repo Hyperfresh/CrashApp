@@ -50,8 +50,46 @@
             $result = mysqli_query($conn, $sql); //run the query
             // print table header and opening table tag
             if (mysqli_num_rows($result) > 0) {
-                // output data of each row
-                echo "<p>There were <b>" . mysqli_num_rows($result) . " crashes</b> in " . $suburb . ".<br>" . "</p>";
+                
+                // Worded intelligent response.
+                // Count crashes in area between years
+                $max = "SELECT year FROM `crashdata` WHERE year = ( SELECT MAX(year) FROM `crashdata` )";
+                $max = mysqli_query($conn, $max);
+                $max = mysqli_fetch_assoc($max);
+
+                $min = "SELECT year FROM `crashdata` WHERE year = ( SELECT MIN(year) FROM `crashdata` )";
+                $min = mysqli_query($conn, $min);
+                $min = mysqli_fetch_assoc($min);
+
+                $length = $max['year']-$min['year'];
+
+                echo "<p>There were <b>" . mysqli_num_rows($result) . " crashes</b> in " . $suburb . " over the past " . $length . " years.<br>" . "</p>";
+
+                // Count how many of those were under DUI or Drugs
+                $drugs = "SELECT * FROM `crashdata` WHERE Drugs = 1";
+                $drugs = mysqli_query($conn, $drugs);
+                $drugs = mysqli_fetch_assoc($drugs);
+
+                $dui = "SELECT * FROM `crashdata` WHERE DUI = 1";
+                $dui = mysqli_query($conn, $dui);
+                $dui = mysqli_fetch_assoc($dui);
+
+                $drugper = $drugs['Drugs'] / mysqli_num_rows($result);
+                $duiper = $dui['DUI'] / mysqli_num_rows($result);
+
+                echo "<p><b>" . round($duiper, 2) . "% of which involved alcohol</b>, while <b>" . round($drugper, 2) . "% involved drugs</b>.";
+
+                // Most common crash
+                $common = "SELECT collisiontype_id,
+                COUNT(collisiontype_id) AS `value_occurrence`
+                FROM `crashdata`
+                GROUP BY collisiontype_id
+                ORDER BY `value_occurrence` DESC
+                LIMIT 2";
+                $common = mysqli_query($conn, $common);
+                $common = mysqli_fetch_assoc($common);
+
+                // 
             } else {
                 echo "No results for " . $suburb . ".";
             }
