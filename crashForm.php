@@ -43,14 +43,23 @@
         if (mysqli_num_rows($result2) > 0) {
             // output data of each row using a while statement to loop through array
             while ($row = mysqli_fetch_assoc($result2)) {
-                echo '<script>console.log("' . $row['crashType_id'] . $row['collisionType'] . $row['speed'] . '")</script>';
-                echo '<option value=' . $row['crashType_id'] . '>' . $row['collisionType'] . '@' . $row['speed'] . 'km/h, ' . $row['casualties'] . ' casualties</option>';
+                echo '<script>console.log("' . $row['crashtype_id'] . $row['collisionType'] . $row['positionType'] . '")</script>';
+                echo '<option value=' . $row['crashtype_id'] . '>' . $row['collisionType'] . '@' . $row['positionType'] . '</option>';
             }
         }
         ?>
+        </select><br>
+    Speed: <input name="speed" maxlength="3" type="number" max="110" required><br>
+                        Casualties: <input name="casualties" maxlength="2" type="number" required><br>
+                        Highest severity: <select name="highestSeverity">
+                                <option value="Fat">Fatal injury</option>
+                                <option value="Ser">Serious injury</option>
+                                </select><br>
+                        Drugs: <input name="drugs" type="checkbox"><br>
+                        DUI: <input name="dui" type="checkbox"><br>
     <!-- End PHP -->
     </select><br>
-    Year of crash: <input name="year" type="number" min="2010" max="2021"> <br>
+    Year of crash: <input name="year" type="number" min="2010" max="2021" required> <br>
     Month of crash: <select name="month">
         <option value="Jan">January</option>
         <option value="Feb">February</option>
@@ -65,7 +74,7 @@
         <option value="Nov">November</option>
         <option value="Dec">December</option>
     </select><br>
-    Time (24h): <input name="hour" type="number" min="0" max="23">:<input name='min' type='number' min='0' max='59'>
+    Time (24h): <input name="hour" type="number" min="0" max="23" required>:<input name='min' type='number' min='0' max='59' required>
     <input type="submit">
 </form>
 </body>
