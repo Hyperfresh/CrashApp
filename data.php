@@ -63,7 +63,7 @@
 
                 $length = $max['year']-$min['year'];
 
-                echo "<p>There were <b>" . mysqli_num_rows($result) . " crashes</b> in " . $suburb . " over the past " . $length . " years.<br>" . "</p>";
+                echo "<p>There were <b>" . mysqli_num_rows($result) . " crashes</b> in " . $suburb . " over the past " . $length . " years.<br></p>";
 
                 // Count how many of those were under DUI or Drugs
                 $drugs = "SELECT * FROM `crashdata` WHERE Drugs = 1";
@@ -74,10 +74,19 @@
                 $dui = mysqli_query($conn, $dui);
                 $dui = mysqli_fetch_assoc($dui);
 
-                $drugper = $drugs['Drugs'] / mysqli_num_rows($result);
-                $duiper = $dui['DUI'] / mysqli_num_rows($result);
+                if ($drugs) { // Is there a result in "drugs"?
+                    $drugper = $drugs['Drugs'] / mysqli_num_rows($result);
+                } else {
+                    $drugper = 0;
+                }
 
-                echo "<p><b>" . round($duiper, 2) . "% of which involved alcohol</b>, while <b>" . round($drugper, 2) . "% involved drugs</b>.";
+                if ($dui) { // " " "dui"?
+                    $duiper = $dui['DUI'] / mysqli_num_rows($result);
+                } else {
+                    $duiper = 0;
+                }
+
+                echo "<p><b>" . round($duiper, 2) . "% of which involved alcohol</b>, while <b>" . round($drugper, 2) . "% involved drugs</b>.<br></p>";
 
                 // Most common crash
                 $common = "SELECT collisiontype_id,
@@ -87,9 +96,22 @@
                 ORDER BY `value_occurrence` DESC
                 LIMIT 2";
                 $common = mysqli_query($conn, $common);
-                $common = mysqli_fetch_assoc($common);
+                $types = [];
+                while ($row = mysqli_fetch_row($common)) {
+                    array_push($types, $row);
+                }
+                // convert collision type id
+                $type1 = "SELECT collisionType FROM `collisiontype` WHERE crashtype_id LIKE " . $types[0][0];
+                $type1 = mysqli_query($conn, $type1);
+                $type1 = mysqli_fetch_assoc($type1);
 
-                // 
+                $type2 = "SELECT collisionType FROM `collisiontype` WHERE crashtype_id LIKE " . $types[1][0];
+                $type2 = mysqli_query($conn, $type2);
+                $type2 = mysqli_fetch_assoc($type2);
+
+                // print
+                echo "The most common crash type was <b>" . $type1['collisionType'] . "</b>, followed by <b>" . $type2['collisionType'] . "</b>.";
+
             } else {
                 echo "No results for " . $suburb . ".";
             }
