@@ -68,11 +68,11 @@
                     echo "<p>There were <b>" . mysqli_num_rows($result) . " crashes</b> in " . $suburb . " over the past " . $length . " years.<br></p>";
 
                     // Count how many of those were under DUI or Drugs
-                    $drugs = "SELECT * FROM `crashdata` WHERE Drugs = 1";
+                    $drugs = "SELECT * FROM `crashdata` WHERE Drugs = 1 AND location_id LIKE " . $location;
                     $drugs = mysqli_query($conn, $drugs);
                     $drugs = mysqli_fetch_assoc($drugs);
 
-                    $dui = "SELECT * FROM `crashdata` WHERE DUI = 1";
+                    $dui = "SELECT * FROM `crashdata` WHERE DUI = 1 AND location_id LIKE " . $location;
                     $dui = mysqli_query($conn, $dui);
                     $dui = mysqli_fetch_assoc($dui);
 
@@ -88,7 +88,7 @@
                         $duiper = 0;
                     }
 
-                    echo "<p><b>" . round($duiper, 2) . "% of which involved alcohol</b>, while <b>" . round($drugper, 2) . "% involved drugs</b>.<br></p>";
+                    echo "<p><b>" . round($duiper, 2) * 100 . "% of which involved alcohol</b>, while <b>" . round($drugper, 2) * 100 . "% involved drugs</b>.<br></p>";
 
                     // Most common crash
                     $common = "SELECT collisiontype_id,
@@ -185,7 +185,67 @@
                 </script>
         </div>
         <div class="table">
-                <p>goodbye</p>
+                <?php
+                    //store the query into a variable
+                    $sql = "SELECT collisiontype_id,speed,casualties,highestSeverity,Drugs,DUI,year,month,time FROM crashdata WHERE location_id LIKE " . $location;
+                    //run the query and store the result of the query in a variable called $result
+                    $result = mysqli_query($conn, $sql); //run the query
+                    // print table header and opening table tag
+                    if (mysqli_num_rows($result) > 0) {
+                        echo "<table>
+                        <tr>
+                            <th>Time (24h@MonYYYY)</th>
+                            <th>Collision type</th>
+                            <th>Speed (km/h)</th>
+                            <th>Casualties</th>
+                            <th>Highest severity</th>
+                            <th>Drugs</th>
+                            <th>Driver under influence</th>
+                        </tr>";
+                        // output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr><td>".$row["time"]."@".$row["month"]." ".$row["year"]."</td>";
+
+                            // Collision type ID to readable
+                            $colsql = "SELECT * FROM `collisiontype` WHERE `crashType_id` = " . $row['collisiontype_id'];
+                            $colres = mysqli_query($conn, $colsql);
+                            if (mysqli_num_rows($colres) > 0) {
+                                echo "<script>console.log('test')</script>";
+                                while($colrow = mysqli_fetch_assoc($colres)){
+                                    echo '<script>console.log("' . $colrow['collisionType'] . '@' . $colrow['positionType'] . '")</script>';
+                                    echo "<td>". $colrow['collisionType'] . '@' . $colrow['positionType']."</td>";
+                                }
+                            } else {
+                                echo "<td>No data</td>";
+                            }
+                            // Speed, casualties and highest severity
+                            echo "<td>" . $row['speed'] . "</td>
+                            <td>" . $row['casualties'] . "</td>
+                            <td>" . $row['highestSeverity'] . "</td>";
+                            // Drugs
+                            if ($row['Drugs'] == 1) {
+                                $Drugs = "Yes";
+                            } else {
+                                $Drugs = "No";
+                            }
+                            echo "<td>" . $Drugs . "</td>";
+                            // Driver under influence
+                            if ($row['DUI'] == 1) {
+                                $DUI = "Yes";
+                            } else {
+                                $DUI = "No";
+                            }
+                            echo "<td>" . $DUI . "</td>";
+                            // End row
+                            echo "</tr>";
+                        }
+                        echo "</table>";
+                        //close connection
+                        mysqli_close($conn);
+                    } else {
+                        echo "No data to show.";
+                    }
+                ?>
         </div>
     </body>
 </html>
