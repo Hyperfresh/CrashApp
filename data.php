@@ -30,6 +30,7 @@
                 <input type="submit" name="submit"/>
             </p>
         </form>
+        <div class="results-grid">
         <div class="intelliresults">
             <?php
                 //first convert location id to location
@@ -246,6 +247,7 @@
                         echo "No data to show.";
                     }
                 ?>
+        </div>
         </div>
     </body>
 </html>

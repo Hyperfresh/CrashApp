@@ -21,9 +21,31 @@ h1{
     background-color: black;
     color: white;
 }
+
 body{
     font-family: "Open Sans";
     font-size: 20px;
     background-color: black;
     color: white;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-area: 1fr 1fr;
+    grid-template-areas: 
+        "s c"
+        "s t";
+}
+
+.intelliresults {
+    grid-area: s;
+}
+
+.chart {
+    grid-area: c;
+}
+
+.table {
+    grid-area: t;
 }
