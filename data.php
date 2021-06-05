@@ -122,26 +122,23 @@
             ?>
         </div>
         <div class="chart">
-        <!--
             <!-- First create the data to display in JS with PHP code -->
             <?php
-            $dbResult = "SELECT * FROM `crashdata`";
+            $dbResult = "SELECT * FROM `crashdata` WHERE location_id LIKE " . $location;
             $dbResult = mysqli_query($conn, $dbResult);
             $crashes = [];
             $counts = [];
             if (mysqli_num_rows($dbResult) > 0) {
                 while ($row = mysqli_fetch_assoc($dbResult)) {
+
+                    // speed against location
                     array_push($counts, $row["speed"]);
-
                     // id to readable
-                    $location = 'SELECT suburb, lga, postcode FROM `location` WHERE location_id LIKE ' . $row['collisiontype_id'];
-                    $location = mysqli_query($conn, $location);
-                    $location = mysqli_fetch_assoc($location);
-                    $result = $location['suburb'] . ", " . $location['lga'] . " " . $location['postcode'];
+                    $result = 'SELECT collisionType, positionType FROM `collisiontype` WHERE crashtype_id LIKE ' . $row['collisiontype_id'];
+                    $result = mysqli_query($conn, $result);
+                    $result = mysqli_fetch_assoc($result);
+                    $result = $result['collisionType'] . "@" . $result['positionType'] . ", " . $row["time"] . "@" . $row["month"] . " " . $row["year"];
                     array_push($crashes, $result);
-
-                    echo json_encode($counts);
-                    echo json_encode($crashes);
                 }
             }
             ?>
@@ -156,9 +153,11 @@
                             echo json_encode($crashes);
                         ?>,
                         datasets: [{
-                            label: 'Number of Votes',
+                            label: 'Speed',
                             // values to make chart
-                            data: [20, 19, 300, 500, 600, 600],
+                            data: <?php
+                            echo json_encode($counts);
+                            ?>,
                             // color of each data aligned by index
                             backgroundColor: [
                                 'orange',
@@ -187,7 +186,9 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Favourite Colour Vote'
+                                text: <?php
+                                echo json_encode("Area speed of crashes in " . $suburb);
+                                ?>,
                             }
                         },
                         scales: {
@@ -195,14 +196,14 @@
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Colour Vote' //label
+                                    text: 'Crash types' //label
                                 }
                             },
                             //set options for y axis
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'Count' //label
+                                    text: 'Speed' //label
                                 }
                             },
                         }
