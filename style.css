@@ -35,7 +35,7 @@ body{
     grid-area: 1fr 1fr;
     grid-template-areas: 
         "s c"
-        "s t";
+        "t c";
 }
 
 .intelliresults {
